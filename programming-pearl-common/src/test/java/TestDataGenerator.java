@@ -16,6 +16,6 @@ public class TestDataGenerator {
         Arrays.stream(r).forEach(i -> {
             Assert.assertTrue( i < 10000 && i >= 0);
         });
-        Assert.assertEquals(9000, Arrays.stream(r).count());
+        Assert.assertEquals(9000, Arrays.stream(r).distinct().count());
     }
 }
