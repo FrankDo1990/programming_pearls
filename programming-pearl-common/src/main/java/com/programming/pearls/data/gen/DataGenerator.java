@@ -18,7 +18,6 @@ public class DataGenerator {
      */
     public static int[] genRandomKFromN(int upper, int k) {
         Preconditions.checkArgument(upper > 0 && upper >= k);
-
         int[] data = new int[upper];
         for (int i = 0; i < data.length; i++) {
             data[i] = i;
@@ -33,5 +32,13 @@ public class DataGenerator {
 
         }
         return Arrays.copyOfRange(data, upper - k, upper);
+    }
+
+    public static byte[] genRandomKFromN(int total) {
+        byte[] res = new byte[total];
+        for (int i = 0; i< total; i ++) {
+            res[i] = (byte) new Random().nextInt(8);
+        }
+        return res;
     }
 }
