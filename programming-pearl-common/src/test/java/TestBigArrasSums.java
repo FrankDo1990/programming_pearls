@@ -1,4 +1,5 @@
 import java.util.Arrays;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
 import org.junit.Assert;
@@ -28,7 +29,7 @@ public class TestBigArrasSums {
     }
 
     @Test
-    public void testAddBigAllWithMultiThreads() {
+    public void testAddBigAllWithMultiThreads() throws ExecutionException, InterruptedException {
         Stopwatch stopwatch = Stopwatch.createStarted();
         long res = BigArraySums.addBigAllWithMultiThreads(data);
         long elapsed = stopwatch.elapsed(TimeUnit.MILLISECONDS);

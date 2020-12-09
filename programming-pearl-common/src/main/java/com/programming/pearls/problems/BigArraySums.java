@@ -2,6 +2,7 @@ package com.programming.pearls.problems;
 
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ForkJoinPool;
@@ -38,7 +39,7 @@ public class BigArraySums {
         return i + j;
     }
 
-    public static long addBigAllWithMultiThreads(int[] data) {
+    public static long addBigAllWithMultiThreads(int[] data) throws ExecutionException, InterruptedException {
         int pageNum = Runtime.getRuntime().availableProcessors();
         ExecutorService executors = Executors.newFixedThreadPool(pageNum);
         int eachPage = data.length / pageNum;
@@ -54,16 +55,11 @@ public class BigArraySums {
                 return res;
             }));
         }
-        return futures.stream()
-                .map(f -> {
-                    try {
-                        return f.get();
-                    } catch (Throwable t) {
-                        t.printStackTrace();
-                        Throwables.throwIfUnchecked(t);
-                    }
-                    return 0L;
-                }).reduce((l1, l2) -> l1.longValue() + l2.longValue()).get();
+        long res = 0L;
+        for(Future<Long> f : futures) {
+            res += f.get();
+        }
+        return res;
     }
 
     public static long forJoinCompute(int[] data) {
