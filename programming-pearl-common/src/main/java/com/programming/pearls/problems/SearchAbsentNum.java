@@ -6,10 +6,13 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 
 import com.google.common.base.Throwables;
@@ -45,18 +48,15 @@ public class SearchAbsentNum {
 
     public static long getAbsent(String originalPath, String tempPath1, String tempPath2) throws IOException {
         List<Boolean> booleans = Lists.newArrayList();
-        File original = new File(originalPath);
-        File zero = new File(tempPath1);
-        File one = new File(tempPath2);
         int round = 31;
         int r = 31;
-        Pair<Integer, Integer> p = checkOneRound(original, zero, one, round);
-        while (round >= 0 && (p.getKey() == 0 || p.getValue() == 0)) {
-            round--;
-            boolean zeroLess = p.getKey() < p.getValue();
-            booleans.add(zeroLess);
-            // TODO: 2020/12/12 修复这个bug
-            p = checkOneRound(zeroLess ? zero : one, original, one, round);
+        String[] t = checkOneRound(originalPath, tempPath1, tempPath2, round);
+        while (round-- >= 0) {
+            booleans.add(BooleanUtils.toBoolean(t[0]));
+            if (BooleanUtils.toBoolean(t[1])) {
+                break;
+            }
+            t = checkOneRound(t[2], t[3], t[4], round);
         }
         long res = 0L;
         for (boolean ifOne : booleans) {
@@ -68,10 +68,11 @@ public class SearchAbsentNum {
         return res;
     }
 
-    public static Pair<Integer, Integer> checkOneRound(File original, File zero, File one, int round) throws IOException {
+    public static String[] checkOneRound(String original, String zero, String one, int round) throws IOException {
         BufferedReader oriBR = new BufferedReader(new FileReader(original));
         BufferedWriter zeroBW = new BufferedWriter(new FileWriter(zero));
         BufferedWriter oneBW = new BufferedWriter(new FileWriter(one));
+        String[] res = new String[5];
 
         List<Long> tempLongs = Lists.newArrayList();
         int size = 0;
@@ -93,7 +94,16 @@ public class SearchAbsentNum {
                 zeroBW.flush();
             }
         }
-        return new Pair<>(zeroCount, oneCount);
+        boolean zeroLess = zeroCount < oneCount;
+        res[0] = String.valueOf(zeroLess);
+        res[1] = String.valueOf(Math.min(zeroCount, oneCount) == 0);
+        res[2] = zeroLess ? zero : one;
+        res[3] = zeroLess ? one : zero;
+        res[4] = original;
+
+        FileUtils.write(new File(res[3]), "", Charset.defaultCharset());
+        FileUtils.write(new File(res[4]), "", Charset.defaultCharset());
+        return res;
     }
 
     public static void writeLine(BufferedWriter bf, String content) {
@@ -104,6 +114,5 @@ public class SearchAbsentNum {
             throw new RuntimeException(e);
         }
     }
-
 
 }
