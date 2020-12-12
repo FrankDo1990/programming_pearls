@@ -4,7 +4,7 @@ import org.junit.Test;
 import com.programming.pearls.problems.BitVector;
 
 /**
- * @author dufeng <dufeng@kuaishou.com>
+ * @author dufeng
  * Created on 2020-12-08
  */
 public class TestVector {

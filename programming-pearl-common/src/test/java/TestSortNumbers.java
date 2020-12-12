@@ -7,7 +7,7 @@ import com.programming.pearls.data.gen.DataGenerator;
 import com.programming.pearls.problems.SortNumbers;
 
 /**
- * @author dufeng <dufeng@kuaishou.com>
+ * @author dufeng
  * Created on 2020-12-08
  */
 public class TestSortNumbers {

@@ -10,7 +10,7 @@ import com.programming.pearls.data.gen.DataGenerator;
 import com.programming.pearls.problems.BigArraySums;
 
 /**
- * @author dufeng <dufeng@kuaishou.com>
+ * @author dufeng
  * Created on 2020-12-06
  */
 public class TestBigArrasSums {

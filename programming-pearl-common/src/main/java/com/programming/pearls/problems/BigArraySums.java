@@ -17,7 +17,7 @@ import com.google.common.collect.Lists;
 import com.google.common.util.concurrent.Uninterruptibles;
 
 /**
- * @author dufeng <dufeng@kuaishou.com>
+ * @author dufeng
  * Created on 2020-12-06
  */
 public class BigArraySums {

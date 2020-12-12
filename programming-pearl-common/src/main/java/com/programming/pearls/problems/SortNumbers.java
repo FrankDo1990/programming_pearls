@@ -1,7 +1,7 @@
 package com.programming.pearls.problems;
 
 /**
- * @author dufeng <dufeng@kuaishou.com>
+ * @author dufeng
  * Created on 2020-12-08
  * 排序某个算法
  */
